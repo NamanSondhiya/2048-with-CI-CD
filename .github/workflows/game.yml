@@ -14,10 +14,16 @@ jobs:
       - name: Create public directory
         run: mkdir -p public
         
-      - name: Copy game files to public directory
+      - name: clean public directory
+        run: rm -rf public/*
+        
+      - name: copy game files to public directory
         run: cp 2048/index.html 2048/game.js 2048/style.css public/
         
-      - name: Deploy to GitHub Pages
+      - name: list public directory contents
+        run: ls -l public/
+
+      - name: deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
