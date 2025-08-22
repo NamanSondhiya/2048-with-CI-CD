@@ -14,8 +14,8 @@ jobs:
       - name: Create public directory
         run: mkdir -p public
         
-      - name: Copy 2048 files to public directory
-        run: cp -R 2048/2048/* public/
+      - name: Copy game files to public directory
+        run: cp -R 2048/* public/
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
