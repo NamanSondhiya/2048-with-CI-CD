@@ -1,20 +1,24 @@
-name = 2048 Game with CI/CD
+name: 2048 Game CI/CD
 
 on:
-    push:
-        branches:
-            - trunk
+  push:
+    branches:
+      - trunk
 
 jobs:
-    deploy:
-        runs-on:ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Copy 2048 to root
-              run: |
-                cp -R 2048/* .
-            - name: Deploy to GitHub Pages
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                github_token: ${{ secrets.GITHUB_TOKEN }}
-                publish_dir: ./public
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Create public directory
+        run: mkdir -p public
+        
+      - name: Copy 2048 files to public directory
+        run: cp -R 2048/* public/
+        
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
