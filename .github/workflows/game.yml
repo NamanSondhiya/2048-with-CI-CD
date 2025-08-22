@@ -15,7 +15,7 @@ jobs:
         run: mkdir -p public
         
       - name: Copy game files to public directory
-        run: cp -R 2048/* public/
+        run: cp 2048/index.html 2048/game.js 2048/style.css public/
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
