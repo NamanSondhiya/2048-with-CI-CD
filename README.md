@@ -24,19 +24,19 @@ open 2048/index.html
 ```
 
 ### GitHub Pages Deployment
-1. Push to `main`, `master`, or `trunk` branch
+1. Push to `trunk` branch
 2. GitHub Actions will automatically deploy to GitHub Pages
 3. Configure GitHub Pages in repository settings to use GitHub Actions source
 
 ## Project Structure
 ```
 2048-Game-CICD/
-├── 2048/
-│   ├── game.js          # Game logic
-│   ├── index.html       # HTML structure
-│   └── style.css        # Styling
+|
 ├── .github/workflows/
 │   └── game.yml         # CI/CD pipeline
+├── game.js              # Game logic
+├── index.html           # HTML structure
+├── style.css            # Styling
 └── README.md
 ```
 
@@ -52,8 +52,8 @@ open 2048/index.html
 - GitHub Actions for CI/CD
 
 ## Browser Support
-- Chrome, Firefox, Safari, Edge
-- iOS Safari, Chrome Mobile
+- Chrome, Firefox, Brave.
+- iOS Safari, Chrome, Brave
 
 ## License
 MIT License - feel free to use and modify.
