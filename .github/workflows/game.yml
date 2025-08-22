@@ -18,7 +18,7 @@ jobs:
         run: rm -rf public/*
         
       - name: copy game files to public directory
-        run: cp 2048/index.html 2048/game.js 2048/style.css public/
+        run: cp index.html game.js style.css public/
         
       - name: list public directory contents
         run: ls -l public/
