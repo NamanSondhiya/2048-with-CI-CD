@@ -1,14 +1,20 @@
 class Game2048 {
     constructor() {
+        // Initialize game board and state
         this.boardSize = 4;
         this.board = Array(this.boardSize).fill().map(() => Array(this.boardSize).fill(0));
         this.score = 0;
         this.bestScore = parseInt(localStorage.getItem('bestScore')) || 0;
         this.gameOver = false;
         this.won = false;
-        
+
+        // Player management
+        this.players = JSON.parse(localStorage.getItem('players')) || [];
+
+        // Start the game
         this.init();
         this.setupEventListeners();
+        this.loadPlayers();
     }
 
     init() {
@@ -305,7 +311,7 @@ class Game2048 {
     }
 
     setupEventListeners() {
-        // Keyboard controls
+        // Keyboard controls for game movement
         document.addEventListener('keydown', (e) => {
             if (this.gameOver) return;
 
@@ -339,7 +345,22 @@ class Game2048 {
             this.resetGame();
         });
 
-        // Touch swipe support for mobile
+        // Player management buttons
+        document.getElementById('add-player').addEventListener('click', () => {
+            this.addPlayer();
+        });
+
+        document.getElementById('player-name').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.addPlayer();
+            }
+        });
+
+        document.getElementById('download-names').addEventListener('click', () => {
+            this.downloadPlayerNames();
+        });
+
+        // Touch swipe support for mobile devices
         let touchStartX, touchStartY, touchEndX, touchEndY;
 
         document.addEventListener('touchstart', (e) => {
@@ -365,7 +386,63 @@ class Game2048 {
     }
 }
 
+// Player management methods
+Game2048.prototype.addPlayer = function() {
+    const nameInput = document.getElementById('player-name');
+    const name = nameInput.value.trim();
+
+    if (name && !this.players.includes(name)) {
+        this.players.push(name);
+        localStorage.setItem('players', JSON.stringify(this.players));
+        this.loadPlayers();
+        nameInput.value = '';
+        console.log(`Added player: ${name}`);
+    } else if (this.players.includes(name)) {
+        alert('Player name already exists!');
+    } else {
+        alert('Please enter a valid name!');
+    }
+};
+
+Game2048.prototype.loadPlayers = function() {
+    const playerList = document.getElementById('players');
+    playerList.innerHTML = '';
+
+    if (this.players.length === 0) {
+        playerList.innerHTML = '<li>No players yet. Be the first!</li>';
+        return;
+    }
+
+    this.players.forEach((player, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${player}`;
+        playerList.appendChild(li);
+    });
+};
+
+Game2048.prototype.downloadPlayerNames = function() {
+    if (this.players.length === 0) {
+        alert('No players to download!');
+        return;
+    }
+
+    const textContent = this.players.join('\n');
+    const blob = new Blob([textContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '2048-players.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    console.log('Downloaded player names');
+};
+
 // Initialize the game when the page loads
 document.addEventListener('DOMContentLoaded', () => {
-    new Game2048();
+    const game = new Game2048();
+    console.log('2048 Game initialized');
 });
